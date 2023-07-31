@@ -5,6 +5,7 @@ from discord import option
 from api_key import get_key
 import ladder_game
 import gpt
+import random
 
 OPENAI_API_KEY = get_key("OPENAI_API_KEY")
 openai.api_key = OPENAI_API_KEY
@@ -153,8 +154,6 @@ async def 사다리(ctx, row: int, pick: int):
             ladder_str = ladder_game.create_ladder(row, pick)
             result = ladder_game.evaluate_ladder(ladder_str)
             embed = discord.Embed(title = ":ladder: 사다리 결과", description = ladder_str, color = 0xff7f00)
-            rst = []
-            for i in range(row):
             await ctx.send(embed = embed)
             await ctx.send(result)
         except ValueError as e:
