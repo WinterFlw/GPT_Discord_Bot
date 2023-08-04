@@ -47,6 +47,11 @@ def evaluate_ladder(ladder_str):
     result = {d1: '당첨' if d2 == '1' else '꽝' for d1, d2 in zip(top_rung, bottom_rung)}
     return result
 
+def make_ladder_text(num_rows, win_number):
+    ladder_graphic = create_ladder(num_rows, win_number)
+    ladder_result = evaluate_ladder(ladder_graphic)
+    ladder_text = str(ladder_graphic) + "\n\n" + str(ladder_result)
+    return ladder_text
 """
 # Test the function
 num_rows = 6
