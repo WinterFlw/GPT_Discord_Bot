@@ -163,6 +163,8 @@ bot.run(DISCORD_BOT_KEY)
 
 
 """
+pip install git+https://github.com/Pycord-Development/pycord
+
 nohup python index.py &
 
 ps -ef | grep index.py
