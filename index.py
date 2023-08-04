@@ -1,11 +1,13 @@
 import discord
 import openai
 import re
+import random
 from discord import option
+
 from api_key import get_key
 import ladder_game
 import gpt
-import random
+import magic_soragodong
 
 OPENAI_API_KEY = get_key("OPENAI_API_KEY")
 openai.api_key = OPENAI_API_KEY
@@ -151,14 +153,22 @@ async def 사다리(ctx, row: int, pick: int):
         pick = 1
     if row > 1 and pick < row:
         try:
-            ladder_str = ladder_game.create_ladder(row, pick)
-            result = ladder_game.evaluate_ladder(ladder_str)
-            embed = discord.Embed(title = ":ladder: 사다리 결과", description = ladder_str, color = 0xff7f00)
-            await ctx.send(embed = embed)
-            await ctx.send(result)
+            ladder_text = ladder_game.make_ladder_text(row,pick)
+            ladder_embed = discord.Embed(title = ":ladder: 사다리 결과", description = ladder_text, color = 0xff7f00)
+            await ctx.respond(embed = ladder_embed)
         except ValueError as e:
             await ctx.respond(e)
-
+@bot.slash_command(guild_ids=SERVER_IDS)    #마법의 소라고동
+@option(
+    name="question",
+    type=str,
+    description="마법의 소라고동님께 올릴 질문을 입력 합니다.",
+    required=True,
+)
+async def 소라고동님(ctx, question: str):
+    result = magic_soragodong.soragodong()
+    await ctx.respond(f"> 마법의 소라고동님 {question}\n마법의 소라고동 : {result}")
+            
 bot.run(DISCORD_BOT_KEY)
 
 
