@@ -1,5 +1,5 @@
 import openai
-from api_key import get_key
+from code.api_key import get_key
 
 OPENAI_API_KEY = get_key("OPENAI_API_KEY")
 openai.api_key = OPENAI_API_KEY
