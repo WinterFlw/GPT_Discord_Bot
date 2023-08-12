@@ -4,10 +4,10 @@ import re
 import random
 from discord import option
 
-from api_key import get_key
-import ladder_game
-import gpt
-import magic_soragodong
+from code.api_key import get_key
+import code.ladder_game
+import code.gpt
+import code.magic_soragodong
 
 OPENAI_API_KEY = get_key("OPENAI_API_KEY")
 openai.api_key = OPENAI_API_KEY
@@ -44,7 +44,7 @@ async def on_message(message):
         try:
             # 여러 채널에서 다른 문맥을 갖고 싶다면
             # user 가 아니라 채널을 포함한 f"{user}{message.channel}" 로 변경
-            bot_answer = gpt.chat_with_gpt(user, prompt)
+            bot_answer = code.gpt.chat_with_gpt(user, prompt)
             await message.channel.send(f"> Your prompt is: {prompt}\nAnswer: {bot_answer}")
         except:
             await message.channel.send(f"> Your prompt is: {prompt}\nSorry, Failed to answer")
@@ -75,7 +75,7 @@ async def chat(context, prompt: str, max_length: int, refresh: str):
         # 여러 채널에서 다른 문맥을 갖고 싶다면
         # user 가 아니라 채널을 포함한 f"{user}{context.channel}" 로 변경
         use_history = (refresh or 'no').startswith('n')
-        bot_answer = gpt.chat_with_gpt(user, prompt, max_tokens=max_length, use_history=use_history)
+        bot_answer = code.gpt.chat_with_gpt(user, prompt, max_tokens=max_length, use_history=use_history)
         await context.respond(f"> Prompt: {prompt}\n{bot_answer}")
     except Exception as err:
         await context.respond(f"> Prompt: {prompt}\n" \
@@ -153,7 +153,7 @@ async def 사다리(ctx, row: int, pick: int):
         pick = 1
     if row > 1 and pick < row:
         try:
-            ladder_text = ladder_game.make_ladder_text(row,pick)
+            ladder_text = code.ladder_game.make_ladder_text(row,pick)
             ladder_embed = discord.Embed(title = ":ladder: 사다리 결과", description = ladder_text, color = 0xff7f00)
             await ctx.respond(embed = ladder_embed)
         except ValueError as e:
@@ -166,7 +166,7 @@ async def 사다리(ctx, row: int, pick: int):
     required=True,
 )
 async def 소라고동님(ctx, question: str):
-    result = magic_soragodong.soragodong()
+    result = code.magic_soragodong.soragodong()
     await ctx.respond(f"> 마법의 소라고동님 {question}\n마법의 소라고동 : {result}")
             
 bot.run(DISCORD_BOT_KEY)
